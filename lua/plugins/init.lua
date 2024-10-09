@@ -4,6 +4,17 @@ return {
     -- event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
   },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "typescript-language-server"
+      },
+    },
+    config = function ()
+      require("mason").setup()
+    end
+  },
 
   -- These are some examples, uncomment them if you want to see them work!
   {

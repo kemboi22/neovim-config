@@ -4,7 +4,7 @@ local capabilities = base.capabilities
 
 local lspconfig = require("lspconfig")
 
-local servers = { "ts_ls", "tailwindcss", "eslint", "volar", "pest_ls", "html", "bashls", "phpactor"}
+local servers = { "tailwindcss", "eslint", "pest_ls", "html", "bashls", "phpactor"}
 
 
 for _, lsp in ipairs(servers) do
@@ -29,4 +29,28 @@ lspconfig.gopls.setup({
       }
     }
   }
+})
+local mason_registery = require("mason-registry")
+local vue_ls_path = mason_registery.get_package('vue-language-server'):get_install_path() .. '/node_modules/@vue/language-server'
+
+lspconfig.ts_ls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  init_options = {
+    plugins = {
+      {
+        name = "@vue/typescript-plugin",
+        location = vue_ls_path,
+        languages = { "vue" }
+      },
+    },
+  },
+  filetypes = { 'typescript', 'javascript', 'vue' }
+})
+
+lspconfig.volar.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = {"vue", "typescript", "javascript"},
+  root_dir = util.root_pattern("package.json", ".git")
 })
