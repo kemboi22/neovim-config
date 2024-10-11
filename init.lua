@@ -31,6 +31,15 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "nvchad.autocmds"
+require "nvim-tree".setup({
+  git = {
+    enable = true,
+    ignore = false
+  },
+  filters = {
+    dotfiles = false
+  }
+})
 
 vim.schedule(function()
   require "mappings"
