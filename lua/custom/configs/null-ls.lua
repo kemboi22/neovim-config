@@ -6,6 +6,8 @@ local opts = {
   sources = {
     null_ls.builtins.formatting.prettierd,
     null_ls.builtins.formatting.phpcbf,
+    null_ls.builtins.diagnostics.phpstan,
+                    null_ls.builtins.formatting.pint,
     null_ls.builtins.formatting.goimports_reviser,
     null_ls.builtins.formatting.gofumpt,
     null_ls.builtins.formatting.golines

@@ -1,7 +1,7 @@
 return {
   {
     "stevearc/conform.nvim",
-    -- event = 'BufWritePre', -- uncomment for format on save
+    event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
   },
   {
@@ -37,8 +37,10 @@ return {
         "stylua",
         "tailwindcss-language-server",
         "vue-language-server",
-        "yaml-language-server"
+        "yaml-language-server",
+        "intelephense"
       },
+      automatic_installation = true
     },
     config = function ()
       require("mason").setup()
@@ -78,7 +80,7 @@ return {
    		ensure_installed = {
    			"vim", "lua", "vimdoc",
         "html", "css", "javascript", "typescript", "vue", "php", "bash", "json", "dot", "go", "gitcommit", "gitignore", "gomod", "goctl", "phpdoc",
-        "python"
+        "python", "dockerfile", "comment"
    		},
    	},
    },
