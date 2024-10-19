@@ -52,6 +52,15 @@ parser_config.blade = {
     },
     filetype = "blade",
 }
+
+parser_config.surrealdb = {
+  install_info = {
+    url = "https://github.com/DariusCorvus/tree-sitter-surrealdb",
+    files = { "src/parser.c" },
+    branch = "main"
+  },
+  filetype = "surql"
+}
 require 'nvim-treesitter.configs'.setup {
   ensure_installed = 'blade',
   highlight = {
@@ -67,6 +76,17 @@ vim.filetype.add({
     pattern = {
         [".*%.blade%.php"] = "blade",
     },
+})
+
+vim.filetype.add({
+  pattern = {
+    [".surql"] = "surql"
+  }
+})
+vim.filetype.add({
+  extension = {
+    surql = "surql"
+  }
 })
 vim.schedule(function()
   require "mappings"
