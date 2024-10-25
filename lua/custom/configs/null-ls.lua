@@ -8,9 +8,12 @@ local opts = {
     null_ls.builtins.formatting.phpcbf,
     null_ls.builtins.diagnostics.phpstan,
                     null_ls.builtins.formatting.pint,
+    -- null_ls.builtins.formatting.pylint,
     null_ls.builtins.formatting.goimports_reviser,
     null_ls.builtins.formatting.gofumpt,
-    null_ls.builtins.formatting.golines
+    null_ls.builtins.formatting.golines,
+    null_ls.builtins.formatting.blade_formatter,
+    -- null_ls.builtins.formatting.
   },
   on_attach = function (client, bufnr)
     if client.supports_method("textDocument/formatting") then

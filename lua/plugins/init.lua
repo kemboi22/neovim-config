@@ -38,7 +38,9 @@ return {
         "tailwindcss-language-server",
         "vue-language-server",
         "yaml-language-server",
-        "intelephense"
+        "intelephense", 
+        "python-lsp-server",
+        "pylint"
       },
       automatic_installation = true
     },

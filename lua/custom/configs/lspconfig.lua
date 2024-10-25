@@ -4,7 +4,7 @@ local capabilities = base.capabilities
 
 local lspconfig = require("lspconfig")
 
-local servers = { "tailwindcss", "eslint", "pest_ls", "html", "bashls", "phpactor", "intelephense"}
+local servers = { "tailwindcss", "eslint", "pest_ls", "html", "bashls", "phpactor", "intelephense", "pylsp", "pyright"}
 
 
 for _, lsp in ipairs(servers) do
