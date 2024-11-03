@@ -31,63 +31,64 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "nvchad.autocmds"
-require "nvim-tree".setup({
+require("nvim-tree").setup {
   git = {
     enable = true,
-    ignore = false
+    ignore = false,
   },
   filters = {
-    dotfiles = false
-  }
-})
+    dotfiles = false,
+  },
+}
 
-
-
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
 parser_config.blade = {
-    install_info = {
-        url = "https://github.com/EmranMR/tree-sitter-blade",
-        files = { "src/parser.c" },
-        branch = "main",
-    },
-    filetype = "blade",
+  install_info = {
+    url = "https://github.com/EmranMR/tree-sitter-blade",
+    files = { "src/parser.c" },
+    branch = "main",
+  },
+  filetype = "blade",
 }
 
 parser_config.surrealdb = {
   install_info = {
     url = "https://github.com/DariusCorvus/tree-sitter-surrealdb",
     files = { "src/parser.c" },
-    branch = "main"
+    branch = "main",
   },
-  filetype = "surql"
+  filetype = "surql",
 }
-require 'nvim-treesitter.configs'.setup {
-  ensure_installed = 'blade',
+require("nvim-treesitter.configs").setup {
+  ensure_installed = "blade",
   highlight = {
     enable = true,
   },
 }
-require("conform").setup({
+require("conform").setup {
   formatters_by_ft = {
-        blade = { "blade-formatter" }
-    },
-})
-vim.filetype.add({
-    pattern = {
-        [".*%.blade%.php"] = "blade",
-    },
-})
-
-vim.filetype.add({
+    blade = { "blade-formatter" },
+  },
+}
+vim.filetype.add {
   pattern = {
-    [".surql"] = "surql"
-  }
-})
-vim.filetype.add({
+    [".*%.blade%.php"] = "blade",
+  },
+}
+
+vim.filetype.add {
+  pattern = {
+    [".surql"] = "surql",
+  },
+}
+vim.filetype.add {
   extension = {
-    surql = "surql"
-  }
-})
+    surql = "surql",
+  },
+}
+vim.cmd [[
+  autocmd BufRead,BufNewFile *.php lua vim.lsp.start_client({ root_dir = vim.loop.cwd() })
+]]
 vim.schedule(function()
   require "mappings"
 end)

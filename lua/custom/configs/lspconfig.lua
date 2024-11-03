@@ -4,7 +4,7 @@ local capabilities = base.capabilities
 
 local lspconfig = require("lspconfig")
 
-local servers = { "tailwindcss", "eslint", "pest_ls", "html", "bashls", "phpactor", "intelephense", "pylsp", "pyright"}
+local servers = { "tailwindcss", "eslint", "pest_ls", "html", "bashls", "pylsp", "pyright", "intelephense", "phpactor"}
 
 
 for _, lsp in ipairs(servers) do
@@ -54,3 +54,6 @@ lspconfig.volar.setup({
   filetypes = {"vue", "typescript", "javascript"},
   root_dir = util.root_pattern("package.json", ".git")
 })
+
+
+

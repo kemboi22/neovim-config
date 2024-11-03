@@ -10,21 +10,35 @@ return {
       conform.setup {
         formatters_by_ft = {
           lua = { "stylua" },
-          python = { "isort", "black" },
-          javascript = { "prettier" },
-          typescript = { "prettier" },
-          css = { "prettier" },
-          html = { "prettier" },
-          json = { "prettier" },
-          yaml = { "prettier" },
-          markdown = { "prettier" },
-          vue = { "prettier" },
+          python = { { "isort", "black" } },
+          javascript = { "prettierd" },
+          typescript = { "prettierd" },
+          css = { "prettierd" },
+          html = { "prettierd" },
+          json = { "prettierd" },
+          yaml = { "prettierd" },
+          markdown = { "prettierd" },
+          vue = { "prettierd" },
+          php = {{"php-cs-fixer", "pint" }}
         },
         format_on_save = {
           lsp_fallback = true,
           async = false,
           timeout_ms = 500,
         },
+        formatters = {
+          ["php-cs-fixer"] = {
+            command = "php-cs-fixer",
+            args = {
+              "fix",
+              "--rules=@PSR12",
+              "$FILENAME"
+            },
+            stdin = false
+          },
+        },
+        notify_on_error = true,
+        stop_after_first = true
       }
     end,
   },
@@ -148,6 +162,7 @@ return {
     },
     event = { "VeryLazy" },
     opts = {
+      lsp_server = "intelephense",
       features = {
         null_ls = {
           enable = true,
@@ -210,7 +225,7 @@ return {
         python = { "pylint" },
         vue = { "eslint_d" },
         go = { "golangcilint" },
-        php = { "phpstan", "php", "phpcs" },
+        php = { "phpcs" },
       }
 
       local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
@@ -221,6 +236,36 @@ return {
           lint.try_lint()
         end,
       })
+
+      vim.keymap.set("n", "<leader>ll", function ()
+        lint.try_lint()        
+      end, { desc = "Trigger linting for current file" })
     end,
   },
-}
+  {
+    'kristijanhusak/vim-dadbod-ui',
+  dependencies = {
+    { 'tpope/vim-dadbod', lazy = true },
+    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true },
+  },
+  cmd = {
+    'DBUI',
+    'DBUIToggle',
+    'DBUIAddConnection',
+    'DBUIFindBuffer',
+  },
+  init = function()
+    -- Your DBUI configuration
+    vim.g.db_ui_use_nerd_fonts = 1
+  end,
+  },
+  {
+    -- Add the blade-nav.nvim plugin which provides Goto File capabilities
+    -- for Blade files.
+    "ricardoramirezr/blade-nav.nvim",
+    dependencies = {
+      "hrsh7th/nvim-cmp",
+    },
+    ft = { "blade", "php" },
+  },
+   }

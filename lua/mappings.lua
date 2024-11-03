@@ -11,7 +11,9 @@ map("i", "jk", "<ESC>")
 vim.keymap.set("n", "<C-t>", function()
   require("menu").open("default")
 end, {})
-
+vim.keymap.set("n", "<leader>fp", function()
+  require("conform").format({ async = true })
+end, { desc = "Format PHP file" })
 -- mouse users + nvimtree users!
 vim.keymap.set("n", "<RightMouse>", function()
   vim.cmd.exec '"normal! \\<RightMouse>"'
