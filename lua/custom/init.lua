@@ -28,4 +28,5 @@ utils.autocmd("User", {
   end,
 })
 
-vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "onedark_dark"
+

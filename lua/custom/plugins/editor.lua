@@ -122,7 +122,7 @@ return {
         enable = true,
       },
       view = {
-        side = "right",
+        side = "left",
         preserve_window_proportions = true,
         width = {
           min = 50,
