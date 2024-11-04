@@ -157,3 +157,7 @@ end
 if vim.g.neovide then
   map({ "n", "v", "i", "c", "t" }, "<C-S-v>", keymapsUtils.paste, nil, { noremap = true })
 end
+
+vim.keymap.set("n", "<leader>fe", function()
+  require("conform").format({ async = true })
+end, { desc = "Format a file" })

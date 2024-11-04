@@ -191,3 +191,4 @@ vim.filetype.add {
     [".env.*"] = "sh",
   },
 }
+vim.g.lazyvim_php_lsp = "intelephense"
