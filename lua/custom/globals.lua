@@ -38,3 +38,4 @@ end
 
 vim.g.foot = constants.in_foot
 vim.g.kitty = constants.in_kitty
+vim.opt.colorcolumn = "100"

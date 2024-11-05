@@ -34,6 +34,9 @@ return {
         },
         pylsp = {
 
+        },
+        pyright = {
+          filetypes = { "python" }
         }
       },
     },
@@ -42,7 +45,15 @@ return {
   -- undo none-ls changes added by LazyVim
   {
     "nvimtools/none-ls.nvim",
-    enabled = false,
+    enabled = true,
+    opts = {
+      diagnostics = {
+        python = { "ruff", "mypy" }
+      },
+      formatters_by_ft = {
+        python = { "black" }
+      }
+    }
   },
 
   {
