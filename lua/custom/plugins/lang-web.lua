@@ -219,20 +219,18 @@ return {
             run = "onSave",
           },
         },
-        {
-          tailwindcss = {
-            settings = {
-              tailwindCSS = {
-                experimental = {
-                  classRegex = {
-                     "@?class\\(([^]*)\\)",
+        tailwindcss = {
+          settings = {
+            tailwindCSS = {
+              experimental = {
+                classRegex = {
+                  "@?class\\(([^]*)\\)",
                   "'([^']*)'",
-                  }
-                }
-              }
-            }
-          }
-        }
+                },
+              },
+            },
+          },
+        },
       },
       setup = {
         vtsls = function(_, opts)
