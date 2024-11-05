@@ -58,7 +58,7 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        php = { "php_cs_fixer" },
+        php = { "php_cs_fixer", "pint", "blade-formatter" },
       },
       formatters = {
         pint = {
