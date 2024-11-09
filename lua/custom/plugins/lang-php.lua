@@ -1,6 +1,7 @@
 local constants = require "custom.utils.constants"
 local langUtils = require "custom.utils.lang"
 local util = require "conform.util"
+local null_ls = require "null-ls"
 return {
   {
     enabled = not constants.first_install,
@@ -40,6 +41,9 @@ return {
         "pint",
         "blade-formatter",
         "rustywind",
+        "phpcbf",
+        "pretty-php",
+        "phpmd"
       },
     },
   },
@@ -49,7 +53,7 @@ return {
     opts = {
       events = { "BufWritePost", "BufReadPost", "InsertLeave" },
       linters_by_ft = {
-        php = { "phpcs" },
+        php = { "phpcs", "phpstan", "phpmd" },
       },
     },
   },
@@ -58,7 +62,7 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        php = { "php_cs_fixer", "pint", "blade-formatter" },
+        php = { "php_cs_fixer", "pint","phpcbf", "pretty_php", "blade-formatter" },
       },
       formatters = {
         pint = {
@@ -85,7 +89,7 @@ return {
   {
     "jwalton512/vim-blade",
   },
- {
+  {
     "adalessa/laravel.nvim",
     dependencies = {
       "nvim-telescope/telescope.nvim",
@@ -116,5 +120,18 @@ return {
       },
     },
     config = true,
+  },
+  {
+    "nvimtools/none-ls.nvim",
+    event = "VeryLazy",
+    opts = {
+      sources = {
+        null_ls.builtins.diagnostics.phpstan,
+        null_ls.builtins.formatting.phpcsfixer,
+        null_ls.builtins.formatting.phpcbf,
+        null_ls.builtins.formatting.pint,
+        null_ls.builtins.formatting.pretty_php,
+      },
+    },
   },
 }
