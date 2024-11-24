@@ -124,13 +124,14 @@ return {
   {
     "nvimtools/none-ls.nvim",
     event = "VeryLazy",
+    disabled = true,
     opts = {
       sources = {
-        null_ls.builtins.diagnostics.phpstan,
-        null_ls.builtins.formatting.phpcsfixer,
-        null_ls.builtins.formatting.phpcbf,
-        null_ls.builtins.formatting.pint,
-        null_ls.builtins.formatting.pretty_php,
+        -- null_ls.builtins.diagnostics.phpstan,
+        -- null_ls.builtins.formatting.phpcsfixer,
+        -- null_ls.builtins.formatting.phpcbf,
+        -- null_ls.builtins.formatting.pint,
+        -- null_ls.builtins.formatting.pretty_php,
       },
     },
   },
