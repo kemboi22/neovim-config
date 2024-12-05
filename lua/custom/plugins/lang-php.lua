@@ -12,7 +12,7 @@ return {
     opts = {
       servers = {
         phpactor = {
-          enabled = true,
+          enabled = false,
         },
         intelephense = {
           filetypes = { "php", "blade", "php_only" },
@@ -62,7 +62,7 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        php = { "php_cs_fixer", "pint","phpcbf", "pretty_php", "blade-formatter" },
+        php = {  "pint","php_cs_fixer","phpcbf", "pretty_php", "blade-formatter" },
       },
       formatters = {
         pint = {

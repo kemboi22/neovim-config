@@ -127,4 +127,24 @@ return {
       end)
     end,
   },
+  {
+    "danymat/neogen",
+    config = function()
+      require("neogen").setup {
+        enabled = true, -- Enable Neogen
+        languages = {
+          php = {
+            template = {
+              annotation_convention = "phpdoc", -- Use PHPDoc as the standard
+            },
+          },
+          -- Add other languages if needed
+        },
+      }
+
+      -- Optional: Keybinding for generating comments
+      vim.keymap.set("n", "<leader>nc", ":Neogen<CR>", { silent = true, noremap = true, desc = "Generate Doc Comment" })
+    end,
+    cmd = { "Neogen" }, -- Lazy-load the plugin when `:Neogen` is called
+  },
 }

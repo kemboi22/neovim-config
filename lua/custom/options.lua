@@ -11,6 +11,7 @@ vim.opt.termsync = false
 
 -- Make line numbers default
 vim.opt.number = true
+vim.opt.relativenumber = true
 vim.opt.numberwidth = 2
 vim.opt.relativenumber = true
 
@@ -156,6 +157,9 @@ vim.opt.splitkeep = "screen"
 
 -- NOTE: horizontal scrolling can be laggy with large horizontal lines because of regex highlighting
 vim.opt.wrap = false
+vim.opt.textwidth = 120
+vim.o.textwidth = 120
+vim.o.colorcolumn = "120"
 
 -- disable swapfiles
 vim.opt.swapfile = false
@@ -191,4 +195,3 @@ vim.filetype.add {
     [".env.*"] = "sh",
   },
 }
-vim.g.lazyvim_php_lsp = "intelephense"

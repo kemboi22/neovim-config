@@ -183,17 +183,19 @@ return {
                 indentSize = vim.o.shiftwidth,
                 convertTabsToSpaces = vim.o.expandtab,
                 tabSize = vim.o.tabstop,
+                lineWidth = 120,
+
               },
               preferences = { importModuleSpecifier = "non-relative" },
               updateImportsOnFileMove = { enabled = "always" },
               suggest = { completeFunctionCalls = true },
               inlayHints = {
                 enumMemberValues = { enabled = true },
-                functionLikeReturnTypes = { enabled = false },
+                functionLikeReturnTypes = { enabled = true },
                 parameterNames = { enabled = "all" },
-                parameterTypes = { enabled = false },
+                parameterTypes = { enabled = true },
                 propertyDeclarationTypes = { enabled = true },
-                variableTypes = { enabled = false },
+                variableTypes = { enabled = true },
               },
             },
           },
@@ -230,18 +232,6 @@ return {
               },
             },
           },
-        },
-        ts_ls = {
-          init_options = {
-            plugins = {
-              {
-                name = "@vue/typescript-plugin",
-                location = lspUtils.get_pkg_path("vue-language-server", "/node_modules/@vue/language-server"),
-                languages = { "vue" },
-              },
-            },
-          },
-
         },
       },
       setup = {
