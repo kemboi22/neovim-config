@@ -43,7 +43,7 @@ return {
         "rustywind",
         "phpcbf",
         "pretty-php",
-        "phpmd"
+        "phpmd",
       },
     },
   },
@@ -62,7 +62,7 @@ return {
     optional = true,
     opts = {
       formatters_by_ft = {
-        php = {  "pint","php_cs_fixer","phpcbf", "pretty_php", "blade-formatter" },
+        php = { "pint", "php_cs_fixer", "phpcbf", "pretty_php", "blade-formatter" },
       },
       formatters = {
         pint = {
@@ -122,17 +122,14 @@ return {
     config = true,
   },
   {
-    "nvimtools/none-ls.nvim",
-    event = "VeryLazy",
-    disabled = true,
+    "ricardoramirezr/blade-nav.nvim",
+    dependencies = { -- totally optional
+      "hrsh7th/nvim-cmp", -- if using nvim-cmp
+      { "ms-jpq/coq_nvim", branch = "coq" }, -- if using coq
+    },
+    ft = { "blade", "php" }, -- optional, improves startup time
     opts = {
-      sources = {
-        -- null_ls.builtins.diagnostics.phpstan,
-        -- null_ls.builtins.formatting.phpcsfixer,
-        -- null_ls.builtins.formatting.phpcbf,
-        -- null_ls.builtins.formatting.pint,
-        -- null_ls.builtins.formatting.pretty_php,
-      },
+      close_tag_on_complete = true, -- default: true
     },
   },
 }

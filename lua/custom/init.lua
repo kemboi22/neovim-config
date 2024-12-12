@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.shiftwidth = 4
     vim.bo.tabstop = 4
     vim.bo.softtabstop = 4
-    vim.bo.expandtab = true  -- Use spaces instead of tabs
+    vim.bo.expandtab = true -- Use spaces instead of tabs
   end,
 })
 
@@ -56,14 +56,65 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo.shiftwidth = 4
     vim.bo.tabstop = 4
     vim.bo.softtabstop = 4
-    vim.bo.expandtab = false  -- Go typically uses tabs, not spaces
+    vim.bo.expandtab = false -- Go typically uses tabs, not spaces
   end,
 })
 
 -- Global indentation settings
-vim.o.autoindent = true          -- Automatically indent new lines based on the previous line
-vim.o.smartindent = true         -- Enable smart indentation for structured languages
-vim.o.smarttab = true            -- Insert spaces based on 'shiftwidth' when using tabs
-vim.o.shiftround = true          -- Round indent to multiple of 'shiftwidth'
-vim.o.expandtab = true           -- Use spaces instead of tabs by default
+vim.o.autoindent = true -- Automatically indent new lines based on the previous line
+vim.o.smartindent = true -- Enable smart indentation for structured languages
+vim.o.smarttab = true -- Insert spaces based on 'shiftwidth' when using tabs
+vim.o.shiftround = true -- Round indent to multiple of 'shiftwidth'
+vim.o.expandtab = true -- Use spaces instead of tabs by default
 
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.blade = {
+  install_info = {
+    url = "https://github.com/EmranMR/tree-sitter-blade",
+    files = { "src/parser.c" },
+    branch = "main",
+  },
+  filetype = "blade",
+}
+parser_config.surrealdb = {
+  install_info = {
+    url = "https://github.com/DariusCorvus/tree-sitter-surrealdb",
+    files = { "src/parser.c" },
+    branch = "main",
+  },
+  filetype = "surql",
+}
+require("nvim-treesitter.configs").setup {
+  ensure_installed = "blade",
+  highlight = {
+    enable = true,
+  },
+}
+require("conform").setup {
+  formatters_by_ft = {
+    blade = { "blade-formatter" },
+  },
+}
+vim.filetype.add {
+  pattern = {
+    [".*%.blade%.php"] = "blade",
+  },
+}
+
+vim.filetype.add {
+  pattern = {
+    [".surql"] = "surql",
+  },
+}
+vim.filetype.add {
+  extension = {
+    surql = "surql",
+  },
+}
+-- in my settings
+-- Filetypes --
+vim.filetype.add {
+  pattern = {
+    [".*%.blade%.php"] = "blade",
+  },
+}
