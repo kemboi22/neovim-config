@@ -13,6 +13,12 @@ return {
       servers = {
         phpactor = {
           enabled = false,
+          init_options = {
+            diagnostics = {
+              missingDocs = false, -- Suppress missing documentation diagnostics
+              missingReturns = false, -- Suppress missing return tag diagnostics
+            },
+          },
         },
         intelephense = {
           filetypes = { "php", "blade", "php_only" },
@@ -23,6 +29,10 @@ return {
                 associations = { "*.php", "*.blade.php" }, -- Associating .blade.php files as well
                 maxSize = 5000000,
               },
+              diagnostics = {
+                ignored = {
+                    'missing-docblock',
+                },              },
             },
           },
           enabled = true,
