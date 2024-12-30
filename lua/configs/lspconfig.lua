@@ -4,7 +4,7 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 
 -- EXAMPLE
-local servers = { "html", "astro", "cssmodules_ls", "svelte", "tailwindcss" }
+local servers = { "html", "astro", "cssmodules_ls", "svelte", "tailwindcss", "bashls", "pylsp" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
@@ -91,6 +91,30 @@ lspconfig.phpactor.setup {
   on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,
 }
+
+lspconfig.intelephense.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+
+  filetypes = { "php", "blade", "php_only" },
+  settings = {
+    intelephense = {
+      filetypes = { "php", "blade", "php_only" },
+      files = {
+        associations = { "*.php", "*.blade.php" }, -- Associating .blade.php files as well
+        maxSize = 5000000,
+      },
+      diagnostics = {
+        ignored = {
+          "missing-docblock",
+        },
+      },
+    },
+  },
+  enabled = true,
+}
+
 local mason_registery = require "mason-registry"
 local vue_ls_path = mason_registery.get_package("vue-language-server"):get_install_path()
   .. "/node_modules/@vue/language-server"
@@ -253,7 +277,38 @@ lspconfig.eslint.setup {
   },
 }
 
+lspconfig.ruff.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
 
+  keys = {
+    {
+      "<leader>co",
+      false,
+    },
+    {
+      "<leader>lo",
+      function()
+        vim.lsp.buf.code_action {
+          apply = true,
+          context = {
+            only = { "source.organizeImports" },
+            diagnostics = {},
+          },
+        }
+      end,
+      desc = "Organize Imports",
+    },
+  },
+}
+lspconfig.pyright.setup {
+  on_attach = nvlsp.on_attach,
+  on_init = nvlsp.on_init,
+  capabilities = nvlsp.capabilities,
+
+  filetypes = { "python" },
+}
 -- configuring single server, example: typescript
 -- lspconfig.ts_ls.setup {
 --   on_attach = nvlsp.on_attach,

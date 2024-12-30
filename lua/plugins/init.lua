@@ -17,11 +17,35 @@ return {
     opts = {
       spec = {
         -- Add the LazyVim PHP extras here
-        { import = "lazyvim.plugins.extras.lang.php" }, -- PHP plugin
-        { import = "lazyvim.plugins.extras.lang.go" }, -- Go plugin
-        { import = "lazyvim.plugins.extras.lang.tailwind" },
-        { import = "lazyvim.plugins.extras.linting.eslint" },
-        { import = "lazyvim.plugins.extras.lang.omnisharp" },
+        { import = "lazyvim.plugins.extras.lang.php", enabled = true }, -- PHP plugin
+        { import = "lazyvim.plugins.extras.lang.go", enabled = true }, -- Go plugin
+        { import = "lazyvim.plugins.extras.lang.tailwind", enabled = true },
+        { import = "lazyvim.plugins.extras.linting.eslint", enabled = true },
+        { import = "lazyvim.plugins.extras.lang.omnisharp", enabled = true },
+        { import = "lazyvim.plugins.extras.lang.python", enabled = true },
+      },
+    },
+  },
+  {
+    "williamboman/mason.nvim",
+
+    opts = {
+      ensure_installed = {
+        "shfmt",
+        "shellcheck",
+        "php-cs-fixer",
+        "phpactor",
+        "intelephense",
+        "prettierd",
+        "xmlformatter",
+        "isort",
+        "black",
+        "pylint",
+        "ruff",
+        "mypy",
+        "pylsp",
+        "pyright",
+         "jdtls"
       },
     },
   },
@@ -29,13 +53,23 @@ return {
   require "utils.lang-go",
   require "utils.ui",
   require "utils.lang-web",
-  -- {
-  -- 	"nvim-treesitter/nvim-treesitter",
-  -- 	opts = {
-  -- 		ensure_installed = {
-  -- 			"vim", "lua", "vimdoc",
-  --      "html", "css"
-  -- 		},
-  -- 	},
-  -- },
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "vim",
+        "lua",
+        "vimdoc",
+        "html",
+        "css",
+        "vue",
+        "typescript",
+        "javascript",
+        "bash",
+        "php",
+        "go",
+        "java"
+      },
+    },
+  },
 }

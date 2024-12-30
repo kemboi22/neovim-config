@@ -23,7 +23,7 @@ require("lazy").setup({
   },
 
   { import = "plugins" },
-}, lazy_config)
+ }, lazy_config)
 
 -- load theme
 dofile(vim.g.base46_cache .. "defaults")
@@ -40,6 +40,10 @@ require("nvim-tree").setup {
     dotfiles = false,
   },
 }
+
+require "parsers.parser"
 vim.schedule(function()
   require "mappings"
 end)
+vim.api.nvim_set_keymap('n', 'o', 'o<CR>  ', { noremap = true, silent = true })
+
