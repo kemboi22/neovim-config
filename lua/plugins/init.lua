@@ -12,23 +12,23 @@ return {
       require "configs.lspconfig"
     end,
   },
-   {
+  {
     "LazyVim/LazyVim",
     opts = {
       spec = {
         -- Add the LazyVim PHP extras here
-        { import = "lazyvim.plugins.extras.lang.php" },  -- PHP plugin
-        { import = "lazyvim.plugins.extras.lang.go" },   -- Go plugin
-        {  import = "lazyvim.plugins.extras.lang.tailwind" },
+        { import = "lazyvim.plugins.extras.lang.php" }, -- PHP plugin
+        { import = "lazyvim.plugins.extras.lang.go" }, -- Go plugin
+        { import = "lazyvim.plugins.extras.lang.tailwind" },
         { import = "lazyvim.plugins.extras.linting.eslint" },
         { import = "lazyvim.plugins.extras.lang.omnisharp" },
-
       },
     },
   },
   require "utils.lang-php",
-  require("utils.lang-go"),
-  require("utils.ui")
+  require "utils.lang-go",
+  require "utils.ui",
+  require "utils.lang-web",
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
   -- 	opts = {

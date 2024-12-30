@@ -1,24 +1,5 @@
-return {
 
- {
-    "nvim-treesitter/nvim-treesitter",
-    optional = true,
-    opts = {
-      ensure_installed = {
-        "astro",
-        "css",
-        "graphql",
-        "html",
-        "javascript",
-        "scss",
-        "svelte",
-        "tsx",
-        "typescript",
-        "vue",
-        "xml",
-      },
-    },
-  },
+return {
 
   {
     "yioneko/nvim-vtsls",
@@ -27,214 +8,6 @@ return {
       require("vtsls").config(opts)
     end,
   },
-  {
-    "neovim/nvim-lspconfig",
-    optional = true,
-    opts = {
-      servers = {
-        html = { filetypes = { "xhtml", "html" } },
-        cssls = {
-          init_options = {
-            provideFormatter = false,
-          },
-          capabilities = {
-            textDocument = {
-              completion = {
-                completionItem = {
-                  snippetSupport = true,
-                },
-              },
-            },
-          },
-          settings = {
-            css = {
-              validate = true,
-            },
-            less = {
-              validate = true,
-            },
-            scss = {
-              validate = true,
-            },
-          },
-        },
-        svelte = {},
-        astro = {},
-        cssmodules_ls = {},
-        emmet_language_server = {
-          filetypes = {
-            "astro",
-            "css",
-            "eruby",
-            "html",
-            "xhtml",
-            "xml",
-            "htmldjango",
-            "javascriptreact",
-            "less",
-            "pug",
-            "sass",
-            "scss",
-            "svelte",
-            "typescriptreact",
-            "vue",
-          },
-          init_options = {
-            showSuggestionsAsSnippets = true,
-          },
-        },
-        vtsls = {
-          filetypes = {
-            "javascript",
-            "javascriptreact",
-            "javascript.jsx",
-            "typescript",
-            "typescriptreact",
-            "typescript.tsx",
-            "vue",
-          },
-          keys = {
-            {
-              "go",
-              function()
-                require("vtsls").commands.goto_source_definition(0)
-              end,
-              desc = "Goto Source Definition",
-            },
-            {
-              "gR",
-              function()
-                require("vtsls").commands.file_references(0)
-              end,
-              desc = "File References",
-            },
-            {
-              "<leader>lo",
-              function()
-                require("vtsls").commands.organize_imports(0)
-              end,
-              desc = "Organize Imports",
-            },
-            {
-              "<leader>lm",
-              function()
-                require("vtsls").commands.add_missing_imports(0)
-              end,
-              desc = "Add missing imports",
-            },
-            {
-              "<leader>lu",
-              function()
-                require("vtsls").commands.remove_unused_imports(0)
-              end,
-              desc = "Remove unused imports",
-            },
-            {
-              "<leader>lD",
-              function()
-                require("vtsls").commands.fix_all(0)
-              end,
-              desc = "Fix all diagnostics",
-            },
-            {
-              "<leader>lT",
-              function()
-                require("vtsls").commands.select_ts_version(0)
-              end,
-              desc = "Select TS workspace version",
-            },
-          },
-          settings = {
-            complete_function_calls = true,
-            vtsls = {
-              enableMoveToFileCodeAction = true,
-              autoUseWorkspaceTsdk = true,
-              experimental = {
-                completion = {
-                  enableServerSideFuzzyMatch = true,
-                },
-              },
-              tsserver = {
-                globalPlugins = {
-                  {
-                    name = "@vue/typescript-plugin",
-                    location = lspUtils.get_pkg_path("vue-language-server", "/node_modules/@vue/language-server"),
-                    languages = { "vue" },
-                    configNamespace = "typescript",
-                    enableForWorkspaceTypeScriptVersions = true,
-                  },
-                },
-              },
-            },
-            typescript = {
-              format = {
-                indentSize = vim.o.shiftwidth,
-                convertTabsToSpaces = vim.o.expandtab,
-                tabSize = vim.o.tabstop,
-                lineWidth = 120,
-
-              },
-              preferences = { importModuleSpecifier = "non-relative" },
-              updateImportsOnFileMove = { enabled = "always" },
-              suggest = { completeFunctionCalls = true },
-              inlayHints = {
-                enumMemberValues = { enabled = true },
-                functionLikeReturnTypes = { enabled = true },
-                parameterNames = { enabled = "all" },
-                parameterTypes = { enabled = true },
-                propertyDeclarationTypes = { enabled = true },
-                variableTypes = { enabled = true },
-              },
-            },
-          },
-        },
-        volar = {
-          filetypes = { "vue" },
-          init_options = {
-            vue = {
-              hybridMode = true,
-            },
-          },
-          capabilities = {
-            workspace = {
-              didChangeWatchedFiles = {
-                -- NOTE: `dynamicRegistration: true` reduces greatly the performance on nvim < 0.10.0
-                dynamicRegistration = true,
-              },
-            },
-          },
-        },
-        eslint = {
-          settings = {
-            run = "onSave",
-          },
-        },
-        tailwindcss = {
-          settings = {
-            tailwindCSS = {
-              experimental = {
-                -- classRegex = {
-                --   "@?class\\(([^]*)\\)",
-                --   "'([^']*)'",
-                -- },
-              },
-            },
-          },
-        },
-      },
-      setup = {
-        vtsls = function(_, opts)
-          -- set default server config, recommended by yioneko/nvim-vtsls
-          require("lspconfig.configs").vtsls = require("vtsls").lspconfig
-
-          -- copy typescript settings to javascript
-          opts.settings.javascript =
-            vim.tbl_deep_extend("force", {}, opts.settings.typescript, opts.settings.javascript or {})
-        end,
-      },
-    },
-  },
-
   {
     "stevearc/conform.nvim",
     optional = true,
@@ -274,7 +47,7 @@ return {
     optional = true,
     dependencies = {
       {
-        "jay-babu/mason-nvim-dap.nvim",
+  "jay-babu/mason-nvim-dap.nvim",
         optional = true,
         opts = {
           ensure_installed = { "chrome", "js", "node2" },
@@ -387,42 +160,42 @@ return {
     },
   },
 
-  {
-    "mattn/emmet-vim",
-    event = "VeryLazy",
-    cmd = "EmmetInstall",
-    init = function()
-      vim.g.user_emmet_install_global = 0
-      vim.g.user_emmet_leader_key = "<C-z>"
-      vim.g.user_emmet_mode = "i"
-
-      utils.autocmd("FileType", {
-        group = utils.augroup "install_emmet",
-        pattern = {
-          "astro",
-          "css",
-          "eruby",
-          "html",
-          "xhtml",
-          "xml",
-          "htmldjango",
-          "javascript",
-          "javascriptreact",
-          "less",
-          "pug",
-          "sass",
-          "scss",
-          "svelte",
-          "typescript",
-          "typescriptreact",
-          "vue",
-        },
-        callback = function()
-          vim.cmd [[ EmmetInstall ]]
-        end,
-      })
-    end,
-  },
+  -- {
+  --   "mattn/emmet-vim",
+  --   event = "VeryLazy",
+  --   cmd = "EmmetInstall",
+  --   init = function()
+  --     vim.g.user_emmet_install_global = 0
+  --     vim.g.user_emmet_leader_key = "<C-z>"
+  --     vim.g.user_emmet_mode = "i"
+  --
+  --     utils.autocmd("FileType", {
+  --       group = utils.augroup "install_emmet",
+  --       pattern = {
+  --         "astro",
+  --         "css",
+  --         "eruby",
+  --         "html",
+  --         "xhtml",
+  --         "xml",
+  --         "htmldjango",
+  --         "javascript",
+  --         "javascriptreact",
+  --         "less",
+  --         "pug",
+  --         "sass",
+  --         "scss",
+  --         "svelte",
+  --         "typescript",
+  --         "typescriptreact",
+  --         "vue",
+  --       },
+  --       callback = function()
+  --         vim.cmd [[ EmmetInstall ]]
+  --       end,
+  --     })
+  --   end,
+  -- },
   {
     "NvChad/nvim-colorizer.lua",
     opts = {
