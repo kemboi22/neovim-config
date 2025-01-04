@@ -21,7 +21,8 @@ require("lazy").setup({
     branch = "v2.5",
     import = "nvchad.plugins",
   },
-
+  { "hrsh7th/nvim-cmp" },
+  { "hrsh7th/cmp-nvim-lsp" },
   { import = "plugins" },
  }, lazy_config)
 
@@ -47,3 +48,17 @@ vim.schedule(function()
 end)
 vim.api.nvim_set_keymap('n', 'o', 'o<CR>  ', { noremap = true, silent = true })
 
+local cmp = require("cmp")
+
+cmp.setup({
+  sources = {
+    { name = "nvim_lsp" },
+    { name = "buffer" }
+  }
+})
+cmp.setup.cmdline(":", {
+  sources = cmp.config.sources({
+    { name = "cmdline" },
+    { name = "buffer" }
+  })
+})

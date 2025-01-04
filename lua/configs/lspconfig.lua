@@ -90,6 +90,8 @@ lspconfig.phpactor.setup {
   on_attach = nvlsp.on_attach,
   on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,
+  cmd = { "phpactor", "language-server" },
+  filetypes = { "php", "php_only", "blade" },
 }
 
 lspconfig.intelephense.setup {
