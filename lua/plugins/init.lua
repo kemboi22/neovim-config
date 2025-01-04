@@ -45,14 +45,10 @@ return {
         "mypy",
         "pylsp",
         "pyright",
-         "jdtls"
+        "jdtls",
       },
     },
   },
-  require "utils.lang-php",
-  require "utils.lang-go",
-  require "utils.ui",
-  require "utils.lang-web",
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -68,8 +64,17 @@ return {
         "bash",
         "php",
         "go",
-        "java"
+        "java",
       },
     },
   },
+  require "utils.lang-php",
+  require "utils.lang-go",
+  require "utils.ui",
+  require "utils.lang-web",
+
+  require "tools.snacks",
+  require "tools.ui",
+  require "tools.tools",
+  require "tools.lint",
 }
