@@ -4,7 +4,7 @@ require("nvchad.configs.lspconfig").defaults()
 local lspconfig = require "lspconfig"
 
 -- EXAMPLE
-local servers = { "html", "astro", "cssmodules_ls", "svelte", "tailwindcss", "bashls", "pylsp" }
+local servers = { "html", "astro", "cssmodules_ls", "svelte", "tailwindcss", "bashls", "pylsp", "phpactor" }
 local nvlsp = require "nvchad.configs.lspconfig"
 
 -- lsps with default config
@@ -86,36 +86,84 @@ lspconfig.gopls.setup {
   options = {},
 }
 
-lspconfig.phpactor.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
-  cmd = { "phpactor", "language-server" },
-  filetypes = { "php", "php_only", "blade" },
-}
-
-lspconfig.intelephense.setup {
-  on_attach = nvlsp.on_attach,
-  on_init = nvlsp.on_init,
-  capabilities = nvlsp.capabilities,
-
-  filetypes = { "php", "blade", "php_only" },
-  settings = {
-    intelephense = {
-      filetypes = { "php", "blade", "php_only" },
-      files = {
-        associations = { "*.php", "*.blade.php" }, -- Associating .blade.php files as well
-        maxSize = 5000000,
-      },
-      diagnostics = {
-        ignored = {
-          "missing-docblock",
-        },
-      },
-    },
-  },
-  enabled = true,
-}
+-- local base = require "plugins.init"
+-- local on_attach = base.on_attach
+-- local capabilities = base.capabilities
+-- lspconfig.phpactor.setup {
+--   on_attach = function(client, bufnr)
+--     -- Use the existing `on_attach` logic from your base
+--     -- Call base on_attach and handle errors
+--     local success, err = pcall(base.on_attach, client, bufnr)
+--     if not success then
+--       print("Error in base on_attach: " .. err)
+--     end
+--     -- Enable formatting if supported by Phpactor
+--     if client.server_capabilities.documentFormattingProvider then
+--       vim.api.nvim_buf_set_keymap(
+--         bufnr,
+--         "n",
+--         "<leader>fm",
+--         "<cmd>lua vim.lsp.buf.format { async = true }<CR>",
+--         { noremap = true, silent = true }
+--       )
+--     end
+--
+--     -- Enable code actions (e.g., autofill doc comments)
+--     vim.api.nvim_buf_set_keymap(
+--       bufnr,
+--       "n",
+--       "<leader>ca",
+--       "<cmd>lua vim.lsp.buf.code_action()<CR>",
+--       { noremap = true, silent = true }
+--     )
+--
+--     -- Diagnostics navigation
+--     vim.api.nvim_buf_set_keymap(
+--       bufnr,
+--       "n",
+--       "[d",
+--       "<cmd>lua vim.diagnostic.goto_prev()<CR>",
+--       { noremap = true, silent = true }
+--     )
+--     vim.api.nvim_buf_set_keymap(
+--       bufnr,
+--       "n",
+--       "]d",
+--       "<cmd>lua vim.diagnostic.goto_next()<CR>",
+--       { noremap = true, silent = true }
+--     )
+--
+--     -- Display diagnostics in hover window
+--     vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true })
+--   end,
+--   on_init = nvlsp.on_init,
+--   capabilities = capabilities,
+--   cmd = { "phpactor", "language-server" },
+--   filetypes = { "php", "php_only", "blade" },
+-- }
+--
+-- lspconfig.intelephense.setup {
+--   on_attach = nvlsp.on_attach,
+--   on_init = nvlsp.on_init,
+--   capabilities = nvlsp.capabilities,
+--
+--   filetypes = { "php", "blade", "php_only" },
+--   settings = {
+--     intelephense = {
+--       filetypes = { "php", "blade", "php_only" },
+--       files = {
+--         associations = { "*.php", "*.blade.php" }, -- Associating .blade.php files as well
+--         maxSize = 5000000,
+--       },
+--       diagnostics = {
+--         ignored = {
+--           "missing-docblock",
+--         },
+--       },
+--     },
+--   },
+--   enabled = true,
+-- }
 
 local mason_registery = require "mason-registry"
 local vue_ls_path = mason_registery.get_package("vue-language-server"):get_install_path()

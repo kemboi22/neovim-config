@@ -3,17 +3,15 @@ local options = {
     lua = { "stylua" },
     css = { "prettierd" },
     html = { "prettierd" },
-    php = { "php-cs-fixer" },
+    php = { { "php-cs-fixer", "pint" } },
     vue = { "prettierd" },
     json = { "prettierd" },
     typescript = { "prettierd" },
     yaml = { "prettierd" },
     markdown = { "prettierd" },
     go = { "goimports_reviser", "gofumpt", "golines" },
-      sh = { "shfmt" },
-    python = { "isort", "black" }
-
-
+    sh = { "shfmt" },
+    python = { "isort", "black" },
   },
 
   format_on_save = {
@@ -21,6 +19,19 @@ local options = {
     timeout_ms = 500,
     lsp_fallback = true,
   },
+  formatters = {
+    ["php-cs-fixer"] = {
+      command = "php-cs-fixer",
+      args = {
+        "fix",
+        "--rules=@PSR12",
+        "$FILENAME",
+      },
+      stdin = false,
+    },
+  },
+  notify_on_error = true,
+  stop_after_first = true,
 }
 
 return options

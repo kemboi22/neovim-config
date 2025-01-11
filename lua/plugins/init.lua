@@ -66,6 +66,8 @@ return {
         "go",
         "java",
       },
+      highlight = { enable = true },
+      indent = { enable = true },
     },
   },
   require "utils.lang-php",
