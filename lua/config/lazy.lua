@@ -19,7 +19,7 @@ require("lazy").setup({
     -- Catppuccin colorscheme
     { "catppuccin/nvim", lazy = true, opts = { transparent_background = true }, name = "catppuccin", priority = 1000 },
     -- add LazyVim and import its plugins
-    { "LazyVim/LazyVim", import = "lazyvim.plugins", opts = { colorscheme = "catppuccin" } },
+    { "LazyVim/LazyVim", import = "lazyvim.plugins", opts = { colorscheme = "onedark" } },
 
     -- import/override with your plugins
     { import = "plugins" },
@@ -62,3 +62,4 @@ require("neo-tree").setup({
     },
   },
 })
+require("config.parser")
