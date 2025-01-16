@@ -15,10 +15,10 @@ return {
     },
     event = { "VeryLazy" },
     opts = {
-      lsp_server = "intelephense",
+      lsp_server = "phpactor",
       features = {
         null_ls = {
-          enable = true,
+          enable = false,
         },
         route_info = {
           enable = true, --- to enable the laravel.nvim virtual text
