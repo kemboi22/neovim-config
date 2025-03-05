@@ -3,3 +3,4 @@
 -- Add any additional options here
 vim.g.lazyvim_picker = "snacks"
 vim.g.lazyvim_php_lsp = "phpactor"
+vim.env.PHP_CS_FIXER_IGNORE_ENV = "1"
