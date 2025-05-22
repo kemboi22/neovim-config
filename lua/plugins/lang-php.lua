@@ -103,14 +103,13 @@ return {
       servers = {
         -- Configure PHP LSP (Intelliphense)
         intelephense = {
-          init_options = {
-            licenceKey = nil, -- Set your license key if you have one
-          },
+
           settings = {
             intelephense = {
               environment = {
-                phpVersion = "8.2", -- Adjust based on your PHP version
+                phpVersion = "8.4", -- Adjust based on your PHP version
               },
+              enable = true,
               files = {
                 maxSize = 5000000,
               },
@@ -207,5 +206,8 @@ return {
     opts = {
       -- your config options here
     },
+  },
+  {
+    "kkoomen/vim-doge",
   },
 }
