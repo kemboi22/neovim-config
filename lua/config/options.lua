@@ -4,3 +4,4 @@
 vim.g.lazyvim_picker = "snacks"
 vim.g.lazyvim_php_lsp = "intelephense"
 vim.env.PHP_CS_FIXER_IGNORE_ENV = "1"
+vim.lsp.inlay_hint.enable(false)
