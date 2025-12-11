@@ -67,9 +67,11 @@ return {
       table.insert(
         opts.sources,
         nls.builtins.formatting.phpcsfixer.with({
+          prefer_local = "vendor/bin",
           extra_args = {
-            "--rules=@PSR12",
-            "--using-cache=no",
+            -- First tries project's .php-cs-fixer.php
+            -- Falls back to global config if not found
+            "--config=" .. vim.fn.expand("~/.config/php-cs-fixer/.php-cs-fixer.php"),
           },
         })
       )
@@ -86,7 +88,7 @@ return {
     optional = true,
     opts = {
       linters_by_ft = {
-        php = { "phpcs" },
+        php = { "phpcs", "phpstan" },
       },
       linters = {
         phpcs = {
@@ -97,16 +99,19 @@ return {
             "--runtime-set",
             "ignore_warnings_on_exit",
             "1",
+            "--runtime-set",
+            "ignore_errors_on_exit",
+            "1",
+            "-s", -- Show sniff codes
           },
         },
         phpstan = {
           args = {
             "analyze",
-            "--error-format",
-            "raw",
+            "--error-format=json",
             "--no-progress",
-            "--level",
-            "5",
+            "--level=8", -- Increased to level 8 for stricter analysis
+            "--memory-limit=2G",
           },
         },
       },
@@ -122,7 +127,13 @@ return {
           settings = {
             intelephense = {
               environment = {
-                phpVersion = "8.4", -- Adjust based on your PHP version
+                phpVersion = "8.5", -- Adjust based on your PHP version
+              },
+              completion = {
+                insertUseDeclaration = true,
+                fullyQualifyGlobalConstantsAndFunctions = true,
+                triggerParameterHints = true,
+                maxItems = 100,
               },
               enable = true,
               files = {
@@ -200,6 +211,55 @@ return {
                 "random",
                 "laravel",
                 "phpunit",
+              },
+              diagnostics = {
+                enable = true,
+                run = "onType",
+                embeddedLanguages = true,
+                undefinedVariables = true,
+                undefinedTypes = true,
+                undefinedFunctions = true,
+                undefinedConstants = true,
+                undefinedClassConstants = true,
+                undefinedMethods = true,
+                undefinedProperties = true,
+                deprecations = true,
+                unusedSymbols = true,
+                implementationErrors = true,
+                typeErrors = true,
+                duplicateSymbols = true,
+                argumentCount = true,
+              },
+              phpdoc = {
+                returnVoid = true,
+                textFormat = "snippet",
+                classTemplate = {
+                  summary = "$1",
+                  description = "$2",
+                  tags = {
+                    "package ${1:$SYMBOL_NAMESPACE}",
+                    "author ${2:Your Name}",
+                  },
+                },
+                propertyTemplate = {
+                  summary = "$1",
+                  description = "$2",
+                  tags = {
+                    "var ${1:$SYMBOL_TYPE}",
+                  },
+                },
+                functionTemplate = {
+                  summary = "$1",
+                  description = "$2",
+                  tags = {
+                    "@param ${1:$SYMBOL_TYPE} $${2:$SYMBOL_NAME} $3",
+                    "@return ${1:$SYMBOL_TYPE} $2",
+                    "@throws ${1:Exception} $2",
+                  },
+                },
+              },
+              telemetry = {
+                enabled = false,
               },
             },
           },
