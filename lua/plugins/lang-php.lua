@@ -88,32 +88,32 @@ return {
     optional = true,
     opts = {
       linters_by_ft = {
-        php = { "phpcs", "phpstan" },
+        php = { "phpcs" },
       },
       linters = {
-        phpcs = {
-          args = {
-            "--standard=PSR12",
-            "--report=json",
-            "-q",
-            "--runtime-set",
-            "ignore_warnings_on_exit",
-            "1",
-            "--runtime-set",
-            "ignore_errors_on_exit",
-            "1",
-            "-s", -- Show sniff codes
-          },
-        },
-        phpstan = {
-          args = {
-            "analyze",
-            "--error-format=json",
-            "--no-progress",
-            "--level=8", -- Increased to level 8 for stricter analysis
-            "--memory-limit=2G",
-          },
-        },
+        -- phpcs = {
+        --   args = {
+        --     "--standard=PSR12",
+        --     "--report=json",
+        --     "-q",
+        --     "--runtime-set",
+        --     "ignore_warnings_on_exit",
+        --     "1",
+        --     "--runtime-set",
+        --     "ignore_errors_on_exit",
+        --     "1",
+        --     "-s", -- Show sniff codes
+        --   },
+        -- },
+        -- phpstan = {
+        --   args = {
+        --     "analyze",
+        --     "--error-format=json",
+        --     "--no-progress",
+        --     "--level=8", -- Increased to level 8 for stricter analysis
+        --     "--memory-limit=2G",
+        --   },
+        -- },
       },
     },
   },
