@@ -131,7 +131,7 @@ return {
               },
               completion = {
                 insertUseDeclaration = true,
-                fullyQualifyGlobalConstantsAndFunctions = true,
+                fullyQualifyGlobalConstantsAndFunctions = false,
                 triggerParameterHints = true,
                 maxItems = 100,
               },
