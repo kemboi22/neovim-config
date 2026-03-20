@@ -25,7 +25,8 @@ return {
                 globalPlugins = {
                   {
                     name = "@vue/typescript-plugin",
-                    location = vim.fn.stdpath("data") .. "/mason/packages/vue-language-server/node_modules/@vue/typescript-plugin",
+                    location = vim.fn.stdpath("data")
+                      .. "/mason/packages/vue-language-server/node_modules/@vue/typescript-plugin",
                     languages = { "vue" },
                     configNamespace = "typescript",
                     enableForWorkspaceTypeScriptVersions = true,
@@ -41,7 +42,7 @@ return {
             typescript = {
               preferences = {
                 includePackageJsonAutoImports = "auto",
-                importModuleSpecifier = "relative",
+                importModuleSpecifier = "non-relative",
               },
               suggest = {
                 completeFunctionCalls = true,

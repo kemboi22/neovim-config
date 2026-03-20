@@ -13,13 +13,13 @@ return {
             gopls = {
               usePlaceholders = false,
               analyses = {
-                fillstruct = false,
+                fillstruct = true,
               },
             },
           },
         },
         lsp_inlay_hints = {
-          enable = false,
+          enable = true,
         },
         luasnip = false,
       })
