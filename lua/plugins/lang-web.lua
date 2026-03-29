@@ -51,17 +51,12 @@ return {
                 autoImports = true,
               },
               inlayHints = {
-                parameterNames = { enabled = "literals" },
-                parameterTypes = { enabled = false },
-                variableTypes = { enabled = false },
-                propertyDeclarationTypes = { enabled = false },
-                functionLikeReturnTypes = { enabled = false },
-                enumMemberValues = { enabled = false },
+                enabled = false,
               },
             },
           },
         },
-        volar = {
+        vue_ls = {
           filetypes = { "vue" },
           init_options = {
             vue = {
@@ -77,6 +72,9 @@ return {
               suggest = {
                 completeFunctionCalls = true,
                 includeCompletionsForModuleExports = true,
+              },
+              inlayHints = {
+                enabled = false,
               },
             },
           },
