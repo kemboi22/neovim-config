@@ -118,12 +118,29 @@ vim.lsp.config("lua_ls", {
     },
   },
 })
+local function get_typescript_server_path(root_dir)
+  -- 1. Check for local node_modules in the project
+  local project_root = vim.fs.find({ "node_modules" }, { path = root_dir, upward = true })[1]
+  local local_ts = project_root and (project_root .. "/typescript/lib")
 
+  -- 2. Define the Mason fallback path
+  local mason_ts = vim.fn.stdpath("data") .. "/mason/packages/typescript-language-server/node_modules/typescript/lib"
+
+  -- 3. Logic: If local exists, use it. Otherwise, use Mason.
+  if local_ts and vim.fn.isdirectory(local_ts) == 1 then
+    return local_ts
+  else
+    return mason_ts
+  end
+end
 vim.lsp.config("vue_ls", {
   filetypes = { "vue" },
   init_options = {
     vue = {
       hybridMode = true,
+    },
+    typescript = {
+      tsdk = get_typescript_server_path(vim.fn.getcwd()),
     },
   },
   settings = {
@@ -140,7 +157,7 @@ vim.lsp.config("vue_ls", {
   },
 })
 vim.lsp.config("vtsls", {
-  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact" },
   settings = {
     vtsls = {
       autoUseWorkspaceTsdk = true,
