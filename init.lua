@@ -65,6 +65,8 @@ vim.pack.add({
   { src = "https://github.com/windwp/nvim-ts-autotag" },
   { src = "https://github.com/windwp/nvim-autopairs" },
   { src = "https://github.com/mfussenegger/nvim-lint" },
+  { src = "https://github.com/akinsho/bufferline.nvim" },
+  { src = "https://github.com/nvim-tree/nvim-web-devicons" },
 })
 require("onedarkpro").setup({
   options = {
@@ -338,8 +340,58 @@ wk.add({
   },
 })
 
-vim.keymap.set("n", "<Tab>", "<CMD>bnext<CR>", { desc = "Next Buffer" })
-vim.keymap.set("n", "<S-Tab>", "<CMD>bprev<CR>", { desc = "Prev Buffer" })
+require("bufferline").setup({
+  options = {
+    mode = "buffers",
+    style_preset = require("bufferline").style_preset.minimal,
+    show_tab_indicators = true,
+    show_close_icon = true,
+    separator_style = "thin",
+    always_show_bufferline = true,
+    diagnostics = "nvim_lsp",
+    diagnostics_indicator = function(_, _, diag)
+      local icons = { Error = "✗ ", Warn = "! " }
+      local ret = (diag.error and icons.Error .. diag.error .. " " or "")
+        .. (diag.warning and icons.Warn .. diag.warning or "")
+      return vim.trim(ret)
+    end,
+    offsets = {
+      {
+        filetype = "oil",
+        text = "File Explorer",
+        highlight = "Directory",
+        text_align = "left",
+      },
+    },
+  },
+})
+vim.keymap.set("n", "<Tab>", "<CMD>BufferLineCycleNext<CR>", { desc = "Next Buffer" })
+vim.keymap.set("n", "<S-Tab>", "<CMD>BufferLineCyclePrev<CR>", { desc = "Prev Buffer" })
+vim.keymap.set("n", "<leader>1", "<CMD>BufferLineGoToBuffer 1<CR>", { desc = "Buffer 1" })
+vim.keymap.set("n", "<leader>2", "<CMD>BufferLineGoToBuffer 2<CR>", { desc = "Buffer 2" })
+vim.keymap.set("n", "<leader>3", "<CMD>BufferLineGoToBuffer 3<CR>", { desc = "Buffer 3" })
+vim.keymap.set("n", "<leader>4", "<CMD>BufferLineGoToBuffer 4<CR>", { desc = "Buffer 4" })
+vim.keymap.set("n", "<leader>5", "<CMD>BufferLineGoToBuffer 5<CR>", { desc = "Buffer 5" })
+vim.keymap.set("n", "<leader>6", "<CMD>BufferLineGoToBuffer 6<CR>", { desc = "Buffer 6" })
+vim.keymap.set("n", "<leader>7", "<CMD>BufferLineGoToBuffer 7<CR>", { desc = "Buffer 7" })
+vim.keymap.set("n", "<leader>8", "<CMD>BufferLineGoToBuffer 8<CR>", { desc = "Buffer 8" })
+vim.keymap.set("n", "<leader>9", "<CMD>BufferLineGoToBuffer 9<CR>", { desc = "Buffer 9" })
+
+wk.add({
+  { "<leader>b", group = "Buffers" },
+  { "<leader>bn", "<CMD>BufferLineCycleNext<CR>", desc = "Next Buffer" },
+  { "<leader>bp", "<CMD>BufferLineCyclePrev<CR>", desc = "Prev Buffer" },
+  { "<leader>bc", "<CMD>bdelete<CR>", desc = "Close Buffer" },
+  { "<leader>b1", "<CMD>BufferLineGoToBuffer 1<CR>", desc = "Buffer 1" },
+  { "<leader>b2", "<CMD>BufferLineGoToBuffer 2<CR>", desc = "Buffer 2" },
+  { "<leader>b3", "<CMD>BufferLineGoToBuffer 3<CR>", desc = "Buffer 3" },
+  { "<leader>b4", "<CMD>BufferLineGoToBuffer 4<CR>", desc = "Buffer 4" },
+  { "<leader>b5", "<CMD>BufferLineGoToBuffer 5<CR>", desc = "Buffer 5" },
+  { "<leader>b6", "<CMD>BufferLineGoToBuffer 6<CR>", desc = "Buffer 6" },
+  { "<leader>b7", "<CMD>BufferLineGoToBuffer 7<CR>", desc = "Buffer 7" },
+  { "<leader>b8", "<CMD>BufferLineGoToBuffer 8<CR>", desc = "Buffer 8" },
+  { "<leader>b9", "<CMD>BufferLineGoToBuffer 9<CR>", desc = "Buffer 9" },
+})
 
 -- Close current buffer without closing the window
 vim.keymap.set("n", "<leader>q", "<CMD>bdelete<CR>", { desc = "Close Buffer" })
