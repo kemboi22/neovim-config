@@ -274,6 +274,39 @@ Wait for installation to complete, then restart Neovim.
 | `<leader>w-`  | Split window below       |
 | `<leader>w    | `                        | Split window right |
 
+### Buffer Navigation
+
+| Keybinding   | Description              |
+| ------------ | ------------------------ |
+| `<Tab>`      | Next buffer              |
+| `<S-Tab>`    | Previous buffer          |
+| `<leader>1-9`| Jump to buffer by number |
+| `<leader>bn` | Next buffer              |
+| `<leader>bp` | Previous buffer          |
+| `<leader>bc` | Close buffer             |
+| `<leader>b1-9`| Jump to buffer by number|
+
+### Flash Navigation
+
+| Keybinding | Description        |
+| ---------- | ------------------ |
+| `s`        | Flash jump to text |
+
+### Documentation (Neogen)
+
+| Keybinding   | Description                |
+| ------------ | -------------------------- |
+| `<leader>ng` | Generate docstring         |
+| `<leader>nf` | Generate function docstring|
+| `<leader>nt` | Generate type docstring    |
+
+### Todo Comments
+
+| Keybinding   | Description        |
+| ------------ | ------------------ |
+| `<leader>tt` | Find all todos     |
+| `<leader>tf` | Find todos (fzf)   |
+
 ### Code Navigation
 
 | Keybinding   | Description         |
@@ -459,6 +492,12 @@ rm -rf ~/.cache/nvim
 - **lualine.nvim**: Statusline
 - **bufferline.nvim**: Buffer tabs
 - **indent-blankline.nvim**: Indentation guides
+- **todo-comments.nvim**: Highlight and search TODO/FIXME/HACK comments
+
+### Navigation & Productivity
+
+- **flash.nvim**: Lightning-fast text navigation
+- **neogen**: Auto-generate docstrings and annotations
 
 ## 🚀 Advanced Usage
 

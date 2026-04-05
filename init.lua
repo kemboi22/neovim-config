@@ -67,6 +67,12 @@ vim.pack.add({
   { src = "https://github.com/mfussenegger/nvim-lint" },
   { src = "https://github.com/akinsho/bufferline.nvim" },
   { src = "https://github.com/nvim-tree/nvim-web-devicons" },
+  { src = "https://github.com/danymat/neogen" },
+  { src = "https://github.com/folke/flash.nvim" },
+  { src = "https://github.com/lukas-reineke/indent-blankline.nvim" },
+  { src = "https://github.com/folke/todo-comments.nvim" },
+  { src = "https://github.com/folke/noice.nvim" },
+  { src = "https://github.com/MunifTanjim/nui.nvim" },
 })
 require("onedarkpro").setup({
   options = {
@@ -516,3 +522,116 @@ autopairs.setup({
   check_ts = true,
   fast_wrap = {},
 })
+
+require("neogen").setup({
+  snippet_engine = "luasnip",
+})
+
+require("flash").setup({
+  modes = {
+    search = {
+      enabled = true,
+    },
+  },
+})
+
+require("ibl").setup({
+  indent = {
+    char = "│",
+    tab_char = "│",
+    highlight = "IblIndent",
+  },
+  scope = {
+    enabled = true,
+    show_start = false,
+    show_end = false,
+    highlight = "IblScope",
+  },
+})
+
+require("todo-comments").setup({
+  keywords = {
+    FIX = {
+      icon = " ",
+      color = "error",
+      alt = { "FIXME", "BUG", "FIXIT", "ISSUE" },
+    },
+    TODO = { icon = "✓ ", color = "info" },
+    HACK = { icon = " ", color = "warning" },
+    WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+    PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+    NOTE = { icon = "󰍨 ", color = "hint", alt = { "INFO" } },
+  },
+})
+
+require("noice").setup({
+  lsp = {
+    override = {
+      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+      ["vim.lsp.util.stylize_markdown"] = true,
+      ["cmp.entry.get_documentation"] = true,
+    },
+    progress = {
+      enabled = true,
+    },
+    signature = {
+      enabled = true,
+    },
+    message = {
+      enabled = true,
+    },
+  },
+  presets = {
+    bottom_search = true,
+    command_palette = true,
+    long_message_to_split = true,
+    inc_rename = false,
+    lsp_doc_border = false,
+  },
+})
+
+wk.add({
+  { "<leader>n", group = "Neogen" },
+  {
+    "<leader>ng",
+    function()
+      require("neogen").generate()
+    end,
+    desc = "Generate Docstring",
+  },
+  {
+    "<leader>nf",
+    function()
+      require("neogen").generate({ type = "func" })
+    end,
+    desc = "Generate Function Docstring",
+  },
+  {
+    "<leader>nt",
+    function()
+      require("neogen").generate({ type = "type" })
+    end,
+    desc = "Generate Type Docstring",
+  },
+})
+
+wk.add({
+  { "<leader>t", group = "Todo" },
+  {
+    "<leader>tt",
+    function()
+      require("fzf-lua").todo()
+    end,
+    desc = "Find Todos",
+  },
+  {
+    "<leader>tf",
+    function()
+      require("todo-comments").fzf()
+    end,
+    desc = "Find Todos (todo-comments)",
+  },
+})
+
+vim.keymap.set("n", "s", "<cmd>Flash<cr>", { desc = "Flash Jump" })
+vim.keymap.set("x", "s", "<cmd>Flash<cr>", { desc = "Flash Jump" })
