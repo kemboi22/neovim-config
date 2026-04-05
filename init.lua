@@ -167,7 +167,7 @@ vim.lsp.config("vtsls", {
           {
             name = "@vue/typescript-plugin",
             location = vim.fn.stdpath("data")
-              .. "/mason/packages/vue-language-server/node_modules/@vue/language-server",
+              .. "/mason/packages/vue-language-server/node_modules/@vue/typescript-plugin",
             languages = { "vue" },
             configNamespace = "typescript",
             enableForWorkspaceTypeScriptVersions = true,
@@ -227,6 +227,9 @@ require("blink.cmp").setup({
     prebuilt_binaries = { force_version = "v*", download = true },
   },
   signature = { enabled = true },
+  sources = {
+    default = { "lsp", "path", "snippets", "buffer" },
+  },
   completion = {
     documentation = { auto_show = true },
     menu = {
@@ -410,50 +413,35 @@ wk.add({
   { "<leader>dl", vim.diagnostic.setloclist, desc = "List Diagnostics" },
   { "<leader>df", vim.diagnostic.open_float, desc = "Float Error" },
 })
--- require("nvim-treesitter").install({
---   "lua",
---   "vue",
---   "vim",
---   "vimdoc",
---   "query",
---   "javascript",
---   "typescript",
---   "json",
---   "go",
---   "python",
---   "zig",
---   "rust",
---   "php",
---   "c",
---   "cpp",
---   "html",
---   "sql",
---   "json",
--- })
--- require("nvim-treesitter.config").setup()
--- require("nvim-treesitter.config").setup({
---   install_dir = vim.fn.stdpath("data") .. "/site",
---   ensure_installed = {
--- "lua",
--- "vue",
--- "vim",
--- "vimdoc",
--- "query",
--- "javascript",
--- "typescript",
--- "json",
--- "go",
--- "python",
--- "zig",
--- "rust",
--- "php",
--- "c",
--- "cpp",
---   },
---   auto_install = true,
---   highlight = { enable = true, additional_vim_regex_highlighting = false },
---   indent = { enable = true },
--- })
+require("nvim-treesitter.config").setup({
+  install_dir = vim.fn.stdpath("data") .. "/site",
+  ensure_installed = {
+    "lua",
+    "vue",
+    "vim",
+    "vimdoc",
+    "query",
+    "javascript",
+    "typescript",
+    "tsx",
+    "json",
+    "go",
+    "python",
+    "zig",
+    "rust",
+    "php",
+    "c",
+    "cpp",
+    "html",
+    "css",
+    "sql",
+  },
+  sync_install = false,
+  auto_install = true,
+  highlight = { enable = true, additional_vim_regex_highlighting = false },
+  indent = { enable = true },
+  autotag = { enable = true },
+})
 
 require("nvim-ts-autotag").setup({
   opts = {
