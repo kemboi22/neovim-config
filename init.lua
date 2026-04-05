@@ -139,9 +139,9 @@ vim.lsp.config("vue_ls", {
     vue = {
       hybridMode = true,
     },
-    typescript = {
-      tsdk = get_typescript_server_path(vim.fn.getcwd()),
-    },
+    -- typescript = {
+    --   tsdk = get_typescript_server_path(vim.fn.getcwd()),
+    -- },
   },
   settings = {
     typescript = {
@@ -157,7 +157,7 @@ vim.lsp.config("vue_ls", {
   },
 })
 vim.lsp.config("vtsls", {
-  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact" },
+  filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
   settings = {
     vtsls = {
       autoUseWorkspaceTsdk = true,
