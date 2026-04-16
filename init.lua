@@ -274,11 +274,11 @@ require("conform").setup({
 local lint = require("lint")
 
 lint.linters_by_ft = {
-  javascript = { "oxlint", "eslint_d", "eslint" },
-  javascriptreact = { "oxlint", "eslint_d", "eslint" },
-  -- typescript = { "oxlint", "eslint_d", "eslint" },
-  typescriptreact = { "oxlint", "eslint_d", "eslint" },
-  -- vue = { "oxlint", "eslint_d", "eslint" },
+  javascript = { "oxlint", "eslint" },
+  javascriptreact = { "oxlint", "eslint" },
+  typescript = { "oxlint", "eslint" },
+  typescriptreact = { "oxlint", "eslint" },
+  vue = { "oxlint", "eslint" },
   php = { "php" },
   go = { "golangcilint" },
   c = { "clangtidy" },
