@@ -41,10 +41,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "rust", "javascript", "zig", "go", "php", "c", "cpp", "html", "lua", "json" },
-  callback = function()
-    -- syntax highlighting, provided by Neovim
-    vim.treesitter.start()
+  pattern = "*", -- Let treesitter decide if it has a parser; it no-ops if not
+  callback = function(args)
+    local ok = pcall(vim.treesitter.start, args.buf)
+    if not ok then
+      -- No parser for this filetype, fall back silently
+    end
   end,
 })
 vim.pack.add({
@@ -126,31 +128,51 @@ vim.lsp.config("lua_ls", {
     },
   },
 })
-local function get_typescript_server_path(root_dir)
-  -- 1. Check for local node_modules in the project
-  local project_root = vim.fs.find({ "node_modules" }, { path = root_dir, upward = true })[1]
-  local local_ts = project_root and (project_root .. "/typescript/lib")
-
-  -- 2. Define the Mason fallback path
-  local mason_ts = vim.fn.stdpath("data") .. "/mason/packages/typescript-language-server/node_modules/typescript/lib"
-
-  -- 3. Logic: If local exists, use it. Otherwise, use Mason.
-  if local_ts and vim.fn.isdirectory(local_ts) == 1 then
-    return local_ts
-  else
-    return mason_ts
-  end
-end
 vim.lsp.config("vue_ls", {
   filetypes = { "vue" },
   init_options = {
     vue = {
       hybridMode = true,
     },
-    -- typescript = {
-    --   tsdk = get_typescript_server_path(vim.fn.getcwd()),
-    -- },
   },
+  on_init = function(client)
+    client.handlers["tsserver/request"] = function(_, result, context)
+      local ts_clients = vim.lsp.get_clients({ bufnr = context.bufnr, name = "ts_ls" })
+      local vtsls_clients = vim.lsp.get_clients({ bufnr = context.bufnr, name = "vtsls" })
+      local clients = {}
+
+      vim.list_extend(clients, ts_clients)
+      vim.list_extend(clients, vtsls_clients)
+
+      if #clients == 0 then
+        vim.notify(
+          "Could not find `vtsls` or `ts_ls` lsp client, `vue_ls` would not work without it.",
+          vim.log.levels.ERROR
+        )
+        return
+      end
+      local ts_client = clients[1]
+
+      local param = unpack(result)
+      local id, command, payload = unpack(param)
+      ts_client:exec_cmd({
+        title = "vue_request_forward", -- You can give title anything as it's used to represent a command in the UI, `:h Client:exec_cmd`
+        command = "typescript.tsserverRequest",
+        arguments = {
+          command,
+          payload,
+        },
+      }, { bufnr = context.bufnr }, function(_, r)
+        local response = r and r.body
+        -- TODO: handle error or response nil here, e.g. logging
+        -- NOTE: Do NOT return if there's an error or no response, just return nil back to the vue_ls to prevent memory leak
+        local response_data = { { id, response } }
+
+        ---@diagnostic disable-next-line: param-type-mismatch
+        client:notify("tsserver/response", response_data)
+      end)
+    end
+  end,
   settings = {
     typescript = {
       preferences = {
@@ -164,7 +186,26 @@ vim.lsp.config("vue_ls", {
     },
   },
 })
+local vue_language_server_path = vim.fn.stdpath("data")
+  .. "/mason/packages/vue-language-server/node_modules/@vue/language-server"
+local vue_plugin = {
+  name = "@vue/typescript-plugin",
+  location = vue_language_server_path,
+  languages = { "vue" },
+  configNamespace = "typescript",
+}
+local tsserver_filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" }
+local ts_ls_config = {
+  init_options = {
+    plugins = {
+      vue_plugin,
+    },
+  },
+  filetypes = tsserver_filetypes,
+}
+vim.lsp.config("ts_ls", ts_ls_config)
 vim.lsp.config("vtsls", {
+  root_markers = { "package.json", "tsconfig.json", "jsconfig.json", ".git" },
   filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
   settings = {
     vtsls = {
@@ -218,7 +259,7 @@ vim.lsp.enable({
   "clangd",
   "zls",
   "gopls",
-  "vtsls",
+  "ts_ls",
   "vue_ls",
   "intelephense",
   "rust_analyzer",
@@ -228,6 +269,7 @@ vim.lsp.enable({
   "jsonls",
   "oxlint",
 })
+
 require("luasnip.loaders.from_vscode").lazy_load()
 require("blink.cmp").setup({
   fuzzy = {
@@ -263,22 +305,22 @@ require("conform").setup({
     zig = { "zigfmt" },
     go = { "gofmt", "goimports" },
     php = { "php_cs_fixer" },
-    javascript = { "oxfmt", "prettierd", "prettier" },
-    javascriptreact = { "oxfmt", "prettierd", "prettier" },
-    typescript = { "oxfmt", "prettierd", "prettier" },
-    typescriptreact = { "oxfmt", "prettierd", "prettier" },
-    vue = { "oxfmt", "prettierd", "prettier" },
+    javascript = { "oxfmt" },
+    javascriptreact = { "oxfmt" },
+    typescript = { "oxfmt" },
+    typescriptreact = { "oxfmt" },
+    vue = { "oxfmt" },
   },
 })
 
 local lint = require("lint")
 
 lint.linters_by_ft = {
-  javascript = { "oxlint", "eslint" },
-  javascriptreact = { "oxlint", "eslint" },
-  typescript = { "oxlint", "eslint" },
-  typescriptreact = { "oxlint", "eslint" },
-  vue = { "oxlint", "eslint" },
+  -- javascript = { "oxlint", "eslint" },
+  -- javascriptreact = { "oxlint", "eslint" },
+  -- typescript = { "oxlint", "eslint" },
+  -- typescriptreact = { "oxlint", "eslint" },
+  -- vue = { "oxlint", "eslint" },
   php = { "php" },
   go = { "golangcilint" },
   c = { "clangtidy" },
@@ -473,32 +515,54 @@ wk.add({
 })
 require("nvim-treesitter.config").setup({
   install_dir = vim.fn.stdpath("data") .. "/site",
-  ensure_installed = {
-    "lua",
-    "vue",
-    "vim",
-    "vimdoc",
-    "query",
-    "javascript",
-    "typescript",
-    "tsx",
-    "json",
-    "go",
-    "python",
-    "zig",
-    "rust",
-    "php",
-    "c",
-    "cpp",
-    "html",
-    "css",
-    "sql",
-  },
-  sync_install = false,
-  auto_install = true,
-  highlight = { enable = true, additional_vim_regex_highlighting = false },
-  indent = { enable = true },
-  autotag = { enable = true },
+  -- ensure_installed = {
+  --   "lua",
+  --   "vue",
+  --   "vim",
+  --   "vimdoc",
+  --   "query",
+  --   "javascript",
+  --   "typescript",
+  --   "tsx",
+  --   "json",
+  --   "go",
+  --   "python",
+  --   "zig",
+  --   "rust",
+  --   "php",
+  --   "c",
+  --   "cpp",
+  --   "html",
+  --   "css",
+  --   "sql",
+  -- },
+  -- sync_install = false,
+  -- auto_install = true,
+  -- highlight = { enable = true, additional_vim_regex_highlighting = false },
+  -- indent = { enable = true },
+  -- autotag = { enable = true },
+})
+require("nvim-treesitter").install({
+  "lua",
+  "vue",
+  "vim",
+  "vimdoc",
+  "query",
+  "javascript",
+  "typescript",
+  "tsx",
+  "json",
+  "go",
+  "python",
+  "zig",
+  "rust",
+  "php",
+  "c",
+  "cpp",
+  "html",
+  "css",
+  "sql",
+  "prisma",
 })
 
 require("nvim-ts-autotag").setup({
