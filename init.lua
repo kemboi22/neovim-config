@@ -75,6 +75,7 @@ vim.pack.add({
   { src = "https://github.com/folke/todo-comments.nvim" },
   { src = "https://github.com/folke/noice.nvim" },
   { src = "https://github.com/MunifTanjim/nui.nvim" },
+  { src = "https://codeberg.org/ziglang/zig.vim" },
 })
 require("onedarkpro").setup({
   options = {
@@ -325,7 +326,7 @@ lint.linters_by_ft = {
   go = { "golangcilint" },
   c = { "clangtidy" },
   cpp = { "clangtidy" },
-  zig = { "zlint" },
+  -- zig = { "zlint" },
 }
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
