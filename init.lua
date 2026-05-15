@@ -76,6 +76,7 @@ vim.pack.add({
   { src = "https://github.com/folke/noice.nvim" },
   { src = "https://github.com/MunifTanjim/nui.nvim" },
   { src = "https://codeberg.org/ziglang/zig.vim" },
+  { src = "https://github.com/MagicDuck/grug-far.nvim" },
 })
 require("onedarkpro").setup({
   options = {
@@ -85,11 +86,14 @@ require("onedarkpro").setup({
 vim.cmd("colorscheme onedark")
 require("mason").setup()
 require("mason-lspconfig").setup()
+require("grug-far").setup()
 require("mason-tool-installer").setup({
   ensure_installed = {
     "lua_ls",
     "stylua",
     "vtsls",
+    "tsgo",
+    "ts_ls",
     "vue_ls",
     "gopls",
     "rust_analyzer",
@@ -260,6 +264,7 @@ vim.lsp.enable({
   "clangd",
   "zls",
   "gopls",
+  "tsgo",
   "ts_ls",
   "vue_ls",
   "intelephense",
