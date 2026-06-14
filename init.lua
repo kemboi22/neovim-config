@@ -12,6 +12,7 @@ vim.opt.expandtab = true -- Use spaces instead of tabs
 vim.opt.shiftwidth = 2 -- Size of an indent
 vim.opt.tabstop = 2 -- Number of spaces tabs count for
 vim.opt.smartindent = true -- Insert indents automatically
+vim.opt.autoindent = true
 vim.opt.ignorecase = true -- Ignore case in search...
 vim.opt.smartcase = true -- ...unless search contains a capital letter
 vim.opt.clipboard = "unnamedplus"
@@ -317,6 +318,20 @@ require("conform").setup({
     typescriptreact = { "oxfmt" },
     vue = { "oxfmt" },
   },
+  formatters = {
+    php_cs_fixer = {
+      prepend_args = function(_, ctx)
+        local local_config = vim.fs.find({ ".php-cs-fixer.php", ".php-cs-fixer.dist.php" }, {
+          upward = true,
+          path = ctx.dirname,
+        })[1]
+
+        local config = local_config or (vim.fn.stdpath("config") .. "/configs/.php-cs-fixer.php")
+
+        return { "--config", config }
+      end,
+    },
+  },
 })
 
 local lint = require("lint")
@@ -545,8 +560,8 @@ require("nvim-treesitter.config").setup({
   -- sync_install = false,
   -- auto_install = true,
   -- highlight = { enable = true, additional_vim_regex_highlighting = false },
-  -- indent = { enable = true },
-  -- autotag = { enable = true },
+  indent = { enable = true },
+  autotag = { enable = true },
 })
 require("nvim-treesitter").install({
   "lua",
