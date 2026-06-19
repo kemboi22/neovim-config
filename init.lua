@@ -113,6 +113,7 @@ require("mason-tool-installer").setup({
     "oxfmt",
     "oxlint",
     "blade-formatter",
+    -- "phpantom_lsp",
   },
 })
 
@@ -257,6 +258,11 @@ vim.lsp.config("vtsls", {
     },
   },
 })
+-- vim.lsp.config("phpantom", {
+--   cmd = { "phpantom_lsp" },
+--   filetypes = { "php" },
+--   root_markers = { ".phpantom.toml", "composer.json", ".git" },
+-- })
 vim.lsp.enable({
   "bashls",
   "tailwindcss",
@@ -275,6 +281,7 @@ vim.lsp.enable({
   "docker_compose_language_service",
   "jsonls",
   "oxlint",
+  -- "phpantom",
 })
 
 require("luasnip.loaders.from_vscode").lazy_load()
@@ -328,7 +335,7 @@ require("conform").setup({
 
         local config = local_config or (vim.fn.stdpath("config") .. "/configs/.php-cs-fixer.php")
 
-        return { "--config", config }
+        return { "--config=" .. config }
       end,
     },
   },
