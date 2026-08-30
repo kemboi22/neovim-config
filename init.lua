@@ -57,6 +57,7 @@ vim.pack.add({
   { src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/rafamadriz/friendly-snippets" },
+  { src = "https://github.com/saghen/blink.lib"},
   { src = "https://github.com/saghen/blink.cmp" },
   { src = "https://github.com/stevearc/conform.nvim" },
   { src = "https://github.com/olimorris/onedarkpro.nvim" },
@@ -78,6 +79,7 @@ vim.pack.add({
   { src = "https://github.com/MunifTanjim/nui.nvim" },
   { src = "https://codeberg.org/ziglang/zig.vim" },
   { src = "https://github.com/MagicDuck/grug-far.nvim" },
+  { src = "https://github.com/ThePrimeagen/99" },
 })
 require("onedarkpro").setup({
   options = {
@@ -288,7 +290,6 @@ require("luasnip.loaders.from_vscode").lazy_load()
 require("blink.cmp").setup({
   fuzzy = {
     implementation = "prefer_rust",
-    prebuilt_binaries = { force_version = "v*", download = true },
   },
   signature = { enabled = true },
   sources = {
@@ -455,6 +456,14 @@ vim.keymap.set("n", "<leader>9", "<CMD>BufferLineGoToBuffer 9<CR>", { desc = "Bu
 
 wk.add({
   { "<leader>b", group = "Buffers" },
+  { "<leader>be", "<CMD>FzfLua buffers<CR>", desc = "Fuzzy Find Buffers" },
+  {
+    "<leader>bq",
+    function()
+      vim.cmd("%bd!")
+    end,
+    desc = "Close All Buffers",
+  },
   { "<leader>bn", "<CMD>BufferLineCycleNext<CR>", desc = "Next Buffer" },
   { "<leader>bp", "<CMD>BufferLineCyclePrev<CR>", desc = "Prev Buffer" },
   { "<leader>bc", "<CMD>bdelete<CR>", desc = "Close Buffer" },
@@ -724,6 +733,78 @@ wk.add({
     desc = "Find Todos (todo-comments)",
   },
 })
+
+-- 99 AI (OpenCode provider by default)
+local _99 = require("99")
+_99.setup({
+  provider = _99.Providers.OpenCodeProvider,
+  tmp_dir = "./tmp",
+  logger = {
+    level = _99.INFO,
+    print_on_error = true,
+  },
+  completion = {
+    source = "native",
+  },
+  md_files = { "AGENT.md" },
+})
+
+wk.add({
+  { "<leader>a", group = "AI" },
+  {
+    "<leader>as",
+    function()
+      _99.search()
+    end,
+    desc = "Search Project",
+  },
+  {
+    "<leader>av",
+    function()
+      _99.vibe()
+    end,
+    desc = "Vibe",
+  },
+  {
+    "<leader>ax",
+    function()
+      _99.stop_all_requests()
+    end,
+    desc = "Stop All Requests",
+  },
+  {
+    "<leader>ao",
+    function()
+      _99.open()
+    end,
+    desc = "Open Results",
+  },
+  {
+    "<leader>al",
+    function()
+      _99.view_logs()
+    end,
+    desc = "View Logs",
+  },
+  {
+    "<leader>am",
+    function()
+      require("99.extensions.fzf_lua").select_model()
+    end,
+    desc = "Select Model",
+  },
+  {
+    "<leader>ap",
+    function()
+      require("99.extensions.fzf_lua").select_provider()
+    end,
+    desc = "Select Provider",
+  },
+})
+
+vim.keymap.set("v", "<leader>ar", function()
+  _99.visual()
+end, { desc = "AI Replace Selection" })
 
 vim.keymap.set("n", "s", "<cmd>Flash<cr>", { desc = "Flash Jump" })
 vim.keymap.set("x", "s", "<cmd>Flash<cr>", { desc = "Flash Jump" })
