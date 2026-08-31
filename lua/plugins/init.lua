@@ -1,0 +1,5 @@
+require("plugins.tools")
+require("plugins.editor")
+require("plugins.completion")
+require("plugins.formatting")
+require("plugins.ui")
