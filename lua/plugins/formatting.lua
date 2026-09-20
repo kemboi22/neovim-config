@@ -21,6 +21,8 @@ conform.setup({
     lua = { "stylua" },
     c = { "clang_format" },
     cpp = { "clang_format" },
+    java = { "google-java-format" },
+    kotlin = { "ktlint" },
     blade = { "blade-formatter" },
     zig = { "zigfmt" },
     rust = { "rustfmt" },
