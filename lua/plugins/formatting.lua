@@ -29,6 +29,7 @@ conform.setup({
     odin = { "odinfmt" },
     go = { "goimports", "gofmt" },
     php = { "php_cs_fixer" },
+    python = { "ruff_organize_imports", "ruff_format" },
     sh = { "shfmt" },
     bash = { "shfmt" },
     javascript = { "oxfmt" },
@@ -122,6 +123,7 @@ end
 lint.linters_by_ft = {
   php = { "php" },
   go = { "golangcilint" },
+  python = { "ruff" },
   c = { "clangtidy" },
   cpp = { "clangtidy" },
   sql = { "sqlfluff" },

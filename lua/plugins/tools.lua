@@ -17,6 +17,7 @@ require("mason-tool-installer").setup({
     "zls",
     "ols",
     "pyright",
+    "ruff",
     "intelephense",
     "php-cs-fixer",
     "blade-formatter",

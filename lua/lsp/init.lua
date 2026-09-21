@@ -49,6 +49,28 @@ vim.lsp.config("vtsls", {
   },
 })
 
+vim.lsp.config("kotlin_language_server", {
+  -- Attach outside Gradle/Maven projects too (single files, git repos).
+  -- Upstream only uses build files as root_markers, so lone .kt files
+  -- never start the server -> no completions.
+  root_markers = {
+    "settings.gradle",
+    "settings.gradle.kts",
+    "build.gradle",
+    "build.gradle.kts",
+    "pom.xml",
+    "build.xml",
+    ".git",
+  },
+  -- Upstream sets storagePath = vim.fs.root(...) which is nil outside a
+  -- project. That serializes init_options as [] instead of {}, and the
+  -- server crashes with "Expected BEGIN_OBJECT but was BEGIN_ARRAY".
+  -- Point it at a real cache dir instead.
+  init_options = {
+    storagePath = vim.fn.stdpath("cache") .. "/kotlin-language-server",
+  },
+})
+
 local servers = {
   "bashls",
   "clangd",
