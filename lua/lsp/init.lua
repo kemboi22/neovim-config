@@ -49,6 +49,37 @@ vim.lsp.config("vtsls", {
   },
 })
 
+vim.lsp.config("pyright", {
+  before_init = function(_, config)
+    -- Point pyright at the project interpreter so third-party deps resolve.
+    -- Without this it uses system python and reports `reportMissingImports`
+    -- for everything installed in the project venv (e.g. via `uv sync`).
+    local candidates = {}
+    -- 1. Explicitly activated environment first.
+    local activated = vim.env.VIRTUAL_ENV or vim.env.CONDA_PREFIX
+    if activated and activated ~= "" then
+      table.insert(candidates, activated .. "/bin/python")
+    end
+    -- 2. Local venv in the project root (`uv sync` creates `.venv`).
+    local root = config.root_dir or vim.fn.getcwd()
+    for _, dir in ipairs({ ".venv", "venv" }) do
+      table.insert(candidates, root .. "/" .. dir .. "/bin/python")
+    end
+    for _, python in ipairs(candidates) do
+      if vim.fn.executable(python) == 1 then
+        -- NB: mutate in place. The client snapshots `config.settings` by
+        -- reference at startup, so rebinding (`config.settings = ...`) would
+        -- silently drop the change and pyright would keep using system python.
+        local settings = config.settings or {}
+        settings.python = settings.python or {}
+        settings.python.pythonPath = python
+        config.settings = settings
+        return
+      end
+    end
+  end,
+})
+
 vim.lsp.config("kotlin_language_server", {
   -- Attach outside Gradle/Maven projects too (single files, git repos).
   -- Upstream only uses build files as root_markers, so lone .kt files
@@ -91,6 +122,7 @@ local servers = {
   "tailwindcss",
   "vtsls",
   "vue_ls",
+  "yamlls",
   "zls",
 }
 

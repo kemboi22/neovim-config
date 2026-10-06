@@ -33,6 +33,7 @@ require("mason-tool-installer").setup({
     "dockerfile-language-server",
     "docker-compose-language-service",
     "json-lsp",
+    "yaml-language-server",
     "sqlfluff",
   },
   auto_update = false,
